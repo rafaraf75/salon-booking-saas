@@ -53,7 +53,7 @@ export default async function MarketingHome({
           </div>
           <div className="flex flex-wrap gap-3">
             <Button size="lg" asChild>
-              <Link href={`/${locale}/(marketing)/auth`}>{dict["marketing.ctaPrimary"]}</Link>
+              <Link href={`/${locale}/auth`}>{dict["marketing.ctaPrimary"]}</Link>
             </Button>
             <Dialog>
               <DialogTrigger asChild>

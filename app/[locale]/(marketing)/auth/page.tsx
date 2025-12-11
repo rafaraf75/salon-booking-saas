@@ -20,7 +20,7 @@ export default async function AuthPage({
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-orange-50/60 via-white to-white px-4 py-10">
       <div className="absolute right-6 top-6">
-        <LangSwitcher currentLocale={locale} pathname={`/${locale}/(marketing)/auth`} />
+        <LangSwitcher currentLocale={locale} pathname={`/${locale}/auth`} />
       </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-2">

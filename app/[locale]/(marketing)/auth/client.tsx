@@ -26,9 +26,14 @@ export function AuthForm({
   const [salonName, setSalonName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const supabaseMissing = !supabase;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!supabase) {
+      setError("Brak konfiguracji Supabase (NEXT_PUBLIC_SUPABASE_URL/ANON_KEY).");
+      return;
+    }
     setError(null);
     setLoading(true);
 
@@ -90,6 +95,11 @@ export function AuthForm({
         </Button>
       </div>
       <form className="space-y-4" onSubmit={handleSubmit}>
+        {supabaseMissing && (
+          <div className="rounded-md bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
+            Skonfiguruj zmienne NEXT_PUBLIC_SUPABASE_URL i NEXT_PUBLIC_SUPABASE_ANON_KEY, aby się zalogować.
+          </div>
+        )}
         <div className="space-y-2">
           <Label htmlFor="email">{dict["auth.email"]}</Label>
           <Input
@@ -129,7 +139,7 @@ export function AuthForm({
           <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
         )}
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full" disabled={loading || supabaseMissing}>
           {loading
             ? "Przetwarzanie..."
             : mode === "signin"
