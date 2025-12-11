@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -50,7 +52,9 @@ export default async function MarketingHome({
             <p className="max-w-2xl text-lg text-muted-foreground">{dict["marketing.heroDesc"]}</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Button size="lg">{dict["marketing.ctaPrimary"]}</Button>
+            <Button size="lg" asChild>
+              <Link href={`/${locale}/(marketing)/auth`}>{dict["marketing.ctaPrimary"]}</Link>
+            </Button>
             <Dialog>
               <DialogTrigger asChild>
                 <Button size="lg" variant="outline">
