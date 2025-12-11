@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Salon Booking SaaS (MVP)
 
-## Getting Started
+Next.js (App Router, TypeScript) + Tailwind CSS + shadcn/ui + Supabase. Główny język UI: hiszpański z tłumaczeniami PL/EN. Pełne wymagania i kolejne zadania znajdziesz w `docs/Agent.md` oraz `docs/CodexTasks.md`.
 
-First, run the development server:
+## Szybki start
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Skopiuj `.env.example` do `.env.local` i uzupełnij `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` oraz (tylko serwer) `SUPABASE_SERVICE_ROLE_KEY`.
+2. Zainstaluj zależności: `yarn install` (przed pierwszym uruchomieniem usuń stare `node_modules`, jeśli istnieją po innej wersji Tailwinda).
+3. Uruchom dev server: `yarn dev` i wejdź na `http://localhost:3000`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Supabase
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Zastosuj migracje SQL z `supabase/migrations` (najpierw `*_task02_*.sql`, potem `*_task03_*.sql`) w panelu Supabase lub przez CLI.
+- Po migracjach schemat jest opisany w `types/supabase.ts`, a helpery klientów w `lib/supabase/*`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Przydatne skrypty
 
-## Learn More
+- `yarn dev` – tryb deweloperski.
+- `yarn build` / `yarn start` – build produkcyjny i start serwera.
+- `yarn lint` – lint (Next.js + ESLint + Prettier).
+- `yarn format` – formatowanie kodu.
 
-To learn more about Next.js, take a look at the following resources:
+## Narzędzia deweloperskie
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Tailwind 3 + PostCSS, plugin `tailwindcss-animate`.
+- shadcn/ui (Button, Card, Input, Dialog na start), `components.json` z aliasami `@/components`, `@/lib/utils`.
+- Husky + lint-staged (pre-commit uruchamia lint/format).
+- Supabase helpers w `lib/supabase` dla komponentów klienckich i serwerowych.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Więcej informacji o funkcjonalnościach i architekturze: `docs/Agent.md`.
