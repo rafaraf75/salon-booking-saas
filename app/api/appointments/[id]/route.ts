@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { addMinutes, parseISO } from "date-fns";
 
+import { sendAppointmentEmail } from "@/lib/notifications/email";
 import { createRouteSupabaseClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/supabase";
 
@@ -110,6 +111,18 @@ export async function PUT(
     .eq("id", current.id);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 400 });
+  }
+
+  if (current.client_email) {
+    const type: "updated" | "cancelled" =
+      (body.status as any) === "cancelled" ? "cancelled" : "updated";
+    sendAppointmentEmail(type, {
+      to: current.client_email,
+      clientName: body.client_name ?? current.client_name,
+      serviceName: service.id,
+      startAt: startDate.toISOString(),
+      locale: (salon.default_locale as any) ?? "es",
+    }).catch(() => null);
   }
 
   return NextResponse.json({ ok: true }, { status: 200 });

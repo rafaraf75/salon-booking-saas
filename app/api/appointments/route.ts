@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { addMinutes, parseISO } from "date-fns";
 
 import { createRouteSupabaseClient } from "@/lib/supabase/server";
+import { sendAppointmentEmail } from "@/lib/notifications/email";
 import type { Database } from "@/types/supabase";
 
 export async function POST(req: Request) {
@@ -86,6 +87,16 @@ export async function POST(req: Request) {
   });
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 400 });
+  }
+
+  if (body.client_email) {
+    sendAppointmentEmail("created", {
+      to: body.client_email,
+      clientName: body.client_name,
+      serviceName: service.id,
+      startAt: startDate.toISOString(),
+      locale: (salon.default_locale as any) ?? "es",
+    }).catch(() => null);
   }
 
   return NextResponse.json({ ok: true }, { status: 201 });
